@@ -41,7 +41,7 @@ for index, row in df_val.iterrows():
         "-c:v", "libx264", "-c:a", "copy",
         #"-threads", "1",
         "-loglevel", "panic",
-        "\"%s\"" % fpath % {"ext": "mp4"}
+        "\"%s\"" % fpath_real
     ]
     command2 = " ".join(command2)
     #print(command2)
