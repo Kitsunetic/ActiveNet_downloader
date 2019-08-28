@@ -23,7 +23,7 @@ def download_test(index, row):
         
     tpath_real = tpath % {"ext": "mp4"}
     fpath_real = fpath % {"ext": "mp4"}
-    if os.path.exists(tpath_real) and os.path.exists(fpath_real):
+    if os.path.exists(fpath_real):
         return
         
     command1 = [
@@ -72,7 +72,7 @@ def download_train_or_val(index, row):
     
     tpath_real = tpath % {"ext": "mp4"}
     fpath_real = fpath % {"ext": "mp4"}
-    if os.path.exists(tpath_real) and os.path.exists(fpath_real):
+    if os.path.exists(fpath_real):
         return
     
     command1 = [
@@ -124,9 +124,9 @@ if __name__ == "__main__":
         tasks_train = df_train.iterrows()
         pool.map(download_train_or_val_, tasks_train)
         
-        df_val = pd.read_csv("./kinetics_700_val.csv")
-        tasks_val = df_val.iterrows()
-        pool.map(download_train_or_val_, tasks_val)
+        #df_val = pd.read_csv("./kinetics_700_val.csv")
+        #tasks_val = df_val.iterrows()
+        #pool.map(download_train_or_val_, tasks_val)
         
         
         
