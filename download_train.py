@@ -9,15 +9,22 @@ storage_path = r"G:\dev\ActiveNetDataset"
 
 
 # download val
-df_val = pd.read_csv("./kinetics_700_val.csv")
+df_val = pd.read_csv("./kinetics_700_train.csv")
 for index, row in df_val.iterrows():
     print(index, row["youtube_id"], row["time_start"], row["time_end"], row["split"], row["label"])
     tpath = os.path.join(storage_path, "temp", row["split"], row["label"], "%s.%%(ext)s" % row["youtube_id"])
     fpath = os.path.join(storage_path, row["split"], row["label"], "%s.%%(ext)s" % row["youtube_id"])
+    
+    if not os.path.exists(os.path.dirname(tpath)):
+        os.makedirs(os.path.dirname(tpath))
+    if not os.path.exists(os.path.dirname(fpath)):
+        os.makedirs(os.path.dirname(fpath))
+    
     tpath_real = tpath % {"ext": "mp4"}
     fpath_real = fpath % {"ext": "mp4"}
     if os.path.exists(tpath_real) and os.path.exists(fpath_real):
         continue
+    
     command1 = [
         "youtube-dl",
         "--quiet", "--no-warnings",
@@ -33,6 +40,8 @@ for index, row in df_val.iterrows():
     except Exception as err:
         print(err)
     
+    if os.path.exists(fpath_real):
+        continue
     command2 = [
         "ffmpeg",
         "-i", "\"%s\"" % tpath % {"ext": "mp4"},
