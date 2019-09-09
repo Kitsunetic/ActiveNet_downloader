@@ -1,13 +1,14 @@
-import os
-import sys
-import subprocess
 import multiprocessing
+import os
+import subprocess
+import sys
 from datetime import datetime
+from itertools import islice
 
 import numpy as np
 import pandas as pd
 
-storage_path = r"G:\dev\ActiveNetDataset"
+storage_path = r"./download"
 
 def download_test(index, row):
     print("[{}] {} {} {} {} {}".format(
@@ -115,18 +116,15 @@ def download_train_or_val_(x):
     download_train_or_val(x[0], x[1])
 
 if __name__ == "__main__":
-    with multiprocessing.Pool(processes=12) as pool:
-        df_test = pd.read_csv("./kinetics_700_test.csv")
-        tasks_test = df_test.iterrows()
-        pool.map(download_test_, tasks_test)
+    with multiprocessing.Pool(processes=5) as pool:
+        #df_test = pd.read_csv("./kinetics_700_test.csv")
+        #tasks_test = df_test.iterrows()
+        #pool.map(download_test_, tasks_test)
         
         df_train = pd.read_csv("./kinetics_700_train.csv")
-        tasks_train = df_train.iterrows()
+        tasks_train = islice(df_train.iterrows(), 450000, 540000)
         pool.map(download_train_or_val_, tasks_train)
         
         #df_val = pd.read_csv("./kinetics_700_val.csv")
         #tasks_val = df_val.iterrows()
         #pool.map(download_train_or_val_, tasks_val)
-        
-        
-        
