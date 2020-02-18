@@ -7,13 +7,14 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
+temp_path = "H:/temp"
 storage_path = r"G:\dev\ActiveNetDataset"
 
 def download_test(index, row):
     print("[{}] {} {} {} {} {}".format(
         datetime.now().strftime("%H:%M:%S"), index, 
         row["youtube_id"], row["time_start"], row["time_end"], row["split"]))
-    tpath = os.path.join(storage_path, "temp", row["split"], "%s.%%(ext)s" % row["youtube_id"])
+    tpath = os.path.join(temp_path, row["split"], "%s.%%(ext)s" % row["youtube_id"])
     fpath = os.path.join(storage_path, row["split"], "%s.%%(ext)s" % row["youtube_id"])
     
     if not os.path.exists(os.path.dirname(tpath)):
@@ -62,7 +63,7 @@ def download_train_or_val(index, row):
     print("[{}] {} {} {} {} {} {}".format(
         datetime.now().strftime("%H:%M:%S"), index, 
         row["youtube_id"], row["time_start"], row["time_end"], row["split"], row["label"]))
-    tpath = os.path.join(storage_path, "temp", row["split"], row["label"], "%s.%%(ext)s" % row["youtube_id"])
+    tpath = os.path.join(temp_path, "temp", row["split"], row["label"], "%s.%%(ext)s" % row["youtube_id"])
     fpath = os.path.join(storage_path, row["split"], row["label"], "%s.%%(ext)s" % row["youtube_id"])
     
     if not os.path.exists(os.path.dirname(tpath)):
@@ -124,9 +125,9 @@ if __name__ == "__main__":
         tasks_train = df_train.iterrows()
         pool.map(download_train_or_val_, tasks_train)
         
-        #df_val = pd.read_csv("./kinetics_700_val.csv")
-        #tasks_val = df_val.iterrows()
-        #pool.map(download_train_or_val_, tasks_val)
+        df_val = pd.read_csv("./kinetics_700_val.csv")
+        tasks_val = df_val.iterrows()
+        pool.map(download_train_or_val_, tasks_val)
         
         
         
