@@ -1,14 +1,14 @@
-import os
-import sys
-import subprocess
 import multiprocessing
+import os
+import subprocess
+import sys
 from datetime import datetime
 
 import numpy as np
 import pandas as pd
 
-temp_path = "H:/temp"
-storage_path = r"G:\dev\ActiveNetDataset"
+temp_path = "../temp"
+storage_path = "../"
 
 def download_test(index, row):
     print("[{}] {} {} {} {} {}".format(
@@ -37,7 +37,7 @@ def download_test(index, row):
     ]
     command1 = " ".join(command1)
     try:
-        subprocess.check_output(command1, shell=False)
+        subprocess.check_output(command1, shell=True)
     except Exception as err:
         print("[{}] {}".format(datetime.now().strftime("%H:%M:%S"), err))
     
@@ -55,7 +55,7 @@ def download_test(index, row):
     ]
     command2 = " ".join(command2)
     try:
-        subprocess.check_output(command2, shell=False)
+        subprocess.check_output(command2, shell=True)
     except Exception as err:
         print("[{}] {}".format(datetime.now().strftime("%H:%M:%S"), err))
 
@@ -85,7 +85,7 @@ def download_train_or_val(index, row):
     ]
     command1 = " ".join(command1)
     try:
-        subprocess.check_output(command1, shell=False)
+        subprocess.check_output(command1, shell=True)
     except Exception as err:
         print(err)
     
@@ -103,7 +103,7 @@ def download_train_or_val(index, row):
     ]
     command2 = " ".join(command2)
     try:
-        subprocess.check_output(command2, shell=False)
+        subprocess.check_output(command2, shell=True)
     except Exception as err:
         print(err)
 
@@ -128,6 +128,3 @@ if __name__ == "__main__":
         df_val = pd.read_csv("./kinetics_700_val.csv")
         tasks_val = df_val.iterrows()
         pool.map(download_train_or_val_, tasks_val)
-        
-        
-        
